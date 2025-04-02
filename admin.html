@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page - Student Accessories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #2A9D8F;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            background-color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #2A9D8F;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        form input,
+        form select,
+        form textarea,
+        form button {
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #2A9D8F;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #2A9D8F;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #2A9D8F;
+            color: white;
+        }
+
+        table tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #2A9D8F;
+            color: white;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="#add-item">Add Item</a></li>
+                <li><a href="#manage-items">Manage Items</a></li>
+                <li><a href="#orders">Orders</a></li>
+                <li><a id="logout-link">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Add New Item Section -->
+        <section id="add-item">
+            <h2>Add New Item</h2>
+            <form id="add-item-form">
+                <label for="item-name">Item Name:</label>
+                <input type="text" id="item-name" name="itemName" required>
+
+                <label for="item-category">Category:</label>
+                <select id="item-category" name="itemCategory" required>
+                    <option value="books">Books</option>
+                    <option value="pdfs">PDFs</option>
+                    <option value="notes">Notes</option>
+                    <option value="drafters">Drafters</option>
+                    <option value="calculators">Calculators</option>
+                    <option value="gadgets">Electronic Gadgets</option>
+                </select>
+
+                <label for="item-type">Type:</label>
+                <select id="item-type" name="itemType" required>
+                    <option value="buy">Buy</option>
+                    <option value="rent">Rent</option>
+                    <option value="both">Both</option>
+                </select>
+
+                <label for="item-price">Price (Buy):</label>
+                <input type="number" id="item-price" name="itemPrice" required>
+
+                <label for="item-rent-price">Price (Rent):</label>
+                <input type="number" id="item-rent-price" name="itemRentPrice">
+
+                <label for="item-stock">Stock:</label>
+                <input type="number" id="item-stock" name="itemStock" required>
+
+                <label for="item-description">Description:</label>
+                <textarea id="item-description" name="itemDescription" rows="4"></textarea>
+
+                <label for="item-image">Image:</label>
+                <input type="file" id="item-image" name="itemImage" accept="image/*">
+
+                <button type="submit">Add Item</button>
+            </form>
+        </section>
+
+        <!-- Manage Items Section -->
+        <section id="manage-items">
+            <h2>Manage Items</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Rent Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="items-list">
+                    <!-- Dynamic Content Here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 University Accessories Admin</p>
+    </footer>
+
+    <script>
+        let itemId = 0;
+
+        // Handle form submission to add items
+        const form = document.getElementById('add-item-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const itemName = document.getElementById('item-name').value;
+            const itemCategory = document.getElementById('item-category').value;
+            const itemType = document.getElementById('item-type').value;
+            const itemPrice = document.getElementById('item-price').value;
+            const itemRentPrice = document.getElementById('item-rent-price').value || '-';
+            const itemStock = document.getElementById('item-stock').value;
+
+            // Create a new row for the item
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${++itemId}</td>
+                <td>${itemName}</td>
+                <td>${itemCategory}</td>
+                <td>${itemType}</td>
+                <td>${itemPrice}</td>
+                <td>${itemRentPrice}</td>
+                <td>${itemStock}</td>
+                <td><button onclick="deleteRow(this)">Delete</button></td>
+            `;
+
+            document.getElementById('items-list').appendChild(row);
+            form.reset();
+        });
+
+        // Function to delete a row
+        function deleteRow(button) {
+            button.parentElement.parentElement.remove();
+        }
+
+        // Logout functionality
+        document.getElementById('logout-link').addEventListener('click', function () {
+            // Redirect to the login page
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handmade Gifts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #F9F9F9;
+            color: #333;
+        }
+
+        header {
+            background-color: #2A9D8F;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .product-card img {
+            max-width: 30%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .product-card h3 {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            color: #2A9DAF;
+        }
+
+        .product-card p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+
+        .product-card .price {
+            font-weight: bold;
+            color: #2A9D8F;
+        }
+
+        .product-card button {
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #2A9D8F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .product-card button.buy-now {
+            background-color: #2A9D8F;
+        }
+
+        footer {
+            background-color: #2A9D8F;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Student Handmade Gifts</h1>
+    </header>
+    <section class="products" id="products">
+        <!-- Products will be dynamically loaded here -->
+    </section>
+    <footer>
+        <p>&copy; 2024 Student Marketplace. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const products = [
+            {
+                id: 7,
+                name: "Resin Arts Chains",
+                description: "1 chain with a set of earrings",
+                price: 280.00,
+                image_url: "https://img-c.udemycdn.com/course/750x422/1122372_5a20.jpg",
+                category: "selling",
+                subcategory: "handicrafts"
+            },
+            {
+                id: 8,
+                name: "Thread Bangles",
+                description: "6pc set bangles available in all sizes",
+                price: 350.00,
+                image_url: "https://fashionous.in/cdn/shop/files/STB019-SilkThreadBangle.jpg?v=1699866827",
+                category: "selling",
+                subcategory: "handicrafts"
+            }
+        ];
+
+        const renderProducts = () => {
+            const container = document.getElementById("products");
+            container.innerHTML = products
+                .map(
+                    (product) => `
+                    <div class="product-card">
+                        <img src="${product.image_url}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p class="price">₹${product.price.toFixed(2)}</p>
+                        <button onclick="addToCart(${product.id})">Add to Cart</button>
+                        <button class="buy-now" onclick="buyNow(${product.id})">Buy Now</button>
+                    </div>
+                `
+                )
+                .join("");
+        };
+        const addToCart = (id) => {
+            const product = products.find((p) => p.id === id);
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            // Check if product is already in the cart
+            const existingProduct = cart.find(item => item.id === id);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert`(${product.name} has been added to your cart!)`;
+        };
+
+        const buyNow = (id) => {
+            const product = products.find((p) => p.id === id);
+            if (product) {
+                window.location.href = `checkout.html?productId=${product.id}`;
+            }
+        };
+
+        renderProducts();
+    </script>
+</body>
+
+</html>

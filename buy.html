@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Now - Student Marketplace</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F1FAEE;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555555;
+        }
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+        }
+        .payment-options {
+            margin-top: 20px;
+        }
+        .payment-options label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .payment-options input[type="radio"] {
+            margin-right: 10px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #2A9D8F;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #2A9D8F;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buy Now</h1>
+        <form id="buyNowForm">
+            <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" id="productName" name="productName" placeholder="Enter product name" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+            </div>
+            <div class="form-group">
+                <label for="deliveryAddress">Delivery Address:</label>
+                <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Enter your address" required>
+            </div>
+            <div class="payment-options">
+                <label>
+                    <input type="radio" name="paymentMethod" value="cashOnDelivery" required>
+                    Cash on Delivery
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="creditCard">
+                    Credit/Debit Card
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="upi">
+                    UPI/Net Banking
+                </label>
+            </div>
+            <button type="submit" class="btn">Confirm Purchase</button>
+        </form>
+        <div class="footer">
+            &copy; 2024 Student Marketplace. All rights reserved.
+        </div>
+    </div>
+    <script>
+        document.getElementById('buyNowForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const productName = document.getElementById('productName').value;
+            const quantity = document.getElementById('quantity').value;
+            const deliveryAddress = document.getElementById('deliveryAddress').value;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            alert(`Order confirmed!\n\nProduct: ${productName}\nQuantity: ${quantity}\nDelivery Address: ${deliveryAddress}\nPayment Method: ${paymentMethod}`);
+        });
+    </script>
+</body>
+</html>

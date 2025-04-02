@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Now</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .buy-now-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .buy-now-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .buy-now-header h1 {
+            color: #2A9D8F;
+            font-size: 2rem;
+        }
+
+        .buy-now-items {
+            margin: 1rem 0;
+        }
+
+        .buy-now-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+        }
+
+        .buy-now-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .buy-now-item .details {
+            flex-grow: 1;
+            margin-left: 1rem;
+        }
+
+        .buy-now-item .details h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .buy-now-item .details p {
+            margin: 0.3rem 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .buy-now-total {
+            text-align: right;
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #264653;
+        }
+
+        .checkout-btn,
+        .home-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .checkout-btn {
+            background: #2A9D8F;
+        }
+
+        .checkout-btn:hover {
+            background: #21867A;
+        }
+
+        .home-btn {
+            background: #E9C46A;
+        }
+
+        .home-btn:hover {
+            background: #C29750;
+        }
+
+        .empty-buy-now {
+            text-align: center;
+            margin: 2rem 0;
+            color: #555;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="buy-now-container">
+        <div class="buy-now-header">
+            <h1>Buy Now</h1>
+        </div>
+        <div class="buy-now-items" id="buy-now-items">
+            <!-- Items will be dynamically rendered -->
+        </div>
+        <div class="buy-now-total" id="buy-now-total">
+            Total: Rs.0.00
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        <button class="home-btn" onclick="redirectToHome()">Return to Home</button>
+    </div>
+
+    <script>
+        function loadBuyNow() {
+            const buyNowList = JSON.parse(localStorage.getItem('buyNow')) || [];
+            const buyNowItemsContainer = document.getElementById('buy-now-items');
+            const buyNowTotal = document.getElementById('buy-now-total');
+
+            buyNowItemsContainer.innerHTML = "";
+            let total = 0;
+
+            if (buyNowList.length === 0) {
+                buyNowItemsContainer.innerHTML = '<p class="empty-buy-now">Your buy now list is empty.</p>';
+                buyNowTotal.textContent = "Total: Rs.0.00";
+                return;
+            }
+
+            buyNowList.forEach(item => {
+                const itemTotal = item.price; // Only one item, no quantity needed
+                total += itemTotal;
+
+                const buyNowItem = document.createElement('div');
+                buyNowItem.className = 'buy-now-item';
+                buyNowItem.innerHTML = `
+                    <img src="${item.image_url}" alt="${item.name}">
+                    <div class="details">
+                        <h3>${item.name}</h3>
+                        <p>Price: Rs.${item.price.toFixed(2)}</p>
+                    </div>
+                `;
+
+                buyNowItemsContainer.appendChild(buyNowItem);
+            });
+
+            buyNowTotal.textContent = `Total: Rs.${total.toFixed(2)}`;
+        }
+
+        function checkout() {
+            const buyNowList = JSON.parse(localStorage.getItem('buyNow')) || [];
+            if (buyNowList.length === 0) {
+                alert("Your buy now list is empty. Add an item before proceeding to checkout.");
+                return;
+            }
+
+            alert("Proceeding to checkout...");
+            localStorage.removeItem('buyNow'); // Clear the buy now list after checkout
+            loadBuyNow();
+
+            // Redirect to the address page
+            window.location.href = "address.html";
+        }
+
+        function redirectToHome() {
+            window.location.href = "homepage.html";
+        }
+
+        // Load buy now list on page load
+        document.addEventListener('DOMContentLoaded', loadBuyNow);
+    </script>
+</body>
+
+</html>

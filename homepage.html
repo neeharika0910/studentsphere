@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Sphere</title>
+    <style>
+        /* Add your styles here (unchanged) */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #F1FAEE, #E9C46A);
+            color: #264653;
+            position: relative;
+        }
+
+        body::before {
+            content: "Student Sphere";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            color: rgba(38, 70, 83, 0.1);
+            z-index: -1;
+            white-space: nowrap;
+        }
+
+        header {
+            background-color: #2A9D8F;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #F4F1BB;
+        }
+
+        header .search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        header input[type="text"] {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        header button {
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+            background-color: #F4A261;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        nav {
+            background-color: #E9C46A;
+            padding: 0.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        nav a {
+            color: #264653;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .banner {
+            background-color: #F4F1BB;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .banner h2 {
+            color: #2A9D8F;
+            font-size: 2rem;
+        }
+
+        .banner p {
+            color: #264653;
+            font-size: 1.2rem;
+        }
+
+        .banner button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #F4A261;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .product-card {
+            background-color: white;
+            border: 1px solid #D4E8D4;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .product-card h3 {
+            font-size: 1.2rem;
+            color: #2A9D8F;
+        }
+
+        .product-card p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .product-card button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #F4A261;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #2A9D8F;
+            color: #F4F1BB;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Student Sphere</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search academic resources...">
+            <button>Search</button>
+        </div>
+    </header>
+    <nav>
+        <a href="homepage.html">Home</a>
+        <a href="projectproduct.html">Products</a>
+        <a href="cart.html">Cart</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="login.html">Login</a>
+        <a href="profilepage.html">Profile</a>
+        <a href="community.html">Community</a>
+    </nav>
+    <div class="banner">
+        <h2>Welcome to Student Sphere</h2>
+        <p>Your one-stop marketplace for academic resources</p>
+        <button onclick="location.href='projectproduct.html'">Shop Now</button>
+    </div>
+    <section class="products" id="products">
+        <!-- Products will be dynamically loaded here -->
+    </section>
+    <footer>
+        <p>&copy; 2024 Student Sphere. All rights reserved.</p>
+    </footer>
+    <script>
+        const products = [
+            { name: "Textbook", category: "Books", img: "https://i.etsystatic.com/12662587/r/il/b8d001/4683244517/il_fullxfull.4683244517_h66r.jpg" },
+            { name: "Drafter", category: "Drawing Tools", img: "https://rukminim2.flixcart.com/image/850/1000/xif0q/drafting-kit/m/b/y/1-mini-drafter-for-engineering-drawing-book-birds-original-imagyq3pqqqkyptt.jpeg?q=20&crop=false" },
+            { name: "Student Handmade Gift", category: "Gifts", img: "https://www.thecrafttrain.com/wp-content/uploads/2018/11/gifts-for-teachers.jpg" },
+            { name: "Used Laptop", category: "Electronics", img: "https://img3.exportersindia.com/product_images/bc-full/2020/6/4090599/cheap-used-laptops-1593077967-5495766.jpeg" },
+        ];
+
+        const renderProducts = () => {
+            const container = document.getElementById("products");
+            container.innerHTML = products
+                .map(
+                    (product) =>
+                        `<div class="product-card">
+                            <img src="${product.img}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>Category: ${product.category}</p>
+                            <button onclick="redirectToCategory('${product.category}')">View Details</button>
+                        </div>`
+                )
+                .join("");
+        };
+
+        const redirectToCategory = (category) => {
+            if (category === "Books") {
+                window.location.href = "book.html"; // Redirect to book.html for Books category
+            }
+            else if (category === "Drawing Tools") {
+                window.location.href = "drafter.html"; // Redirect to book.html for Books category
+            }
+            else if (category === "Gifts"){
+                window.location.href = "studenthandmade.html";
+            }
+            else if (category === "Electronics"){
+                window.location.href= "laptop.html";
+            }
+             else {
+                window.location.href = `category.html?category=${encodeURIComponent(category)}`;
+            }
+        };
+
+        renderProducts();
+    </script>
+</body>
+
+</html>

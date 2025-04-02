@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #F1FAEE, #A8DADC);
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 400px;
+            max-width: 100%;
+        }
+
+        .form-container {
+            padding: 30px;
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2A9D8F;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #F4A261;
+            /* Coral */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #F1FAEE;
+            /* Light Beige */
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 10px;
+            color: #2A9D8F;
+            /* Teal */
+            cursor: pointer;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin: -5px 0 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="signup-form" class="form-container active">
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <input type="text" id="signup-name" placeholder="Full Name" required>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <span id="email-error" class="error"></span>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <span id="password-error" class="error"></span>
+                <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required>
+                <span id="confirm-password-error" class="error"></span>
+                <button type="submit"onclick="location.href='homepage.html';">Sign Up</button>
+                <p class="toggle-link" onclick="toggleForm()">Already have an account? Login</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form Switching Logic
+        function toggleForm() {
+            window.location.href = 'login.html'; /* Redirect to login page */
+        }
+
+        // Email Validation (Signup)
+        const signupForm = document.getElementById("signupForm");
+        const emailError = document.getElementById("email-error");
+        const passwordError = document.getElementById("password-error");
+        const confirmPasswordError = document.getElementById("confirm-password-error");
+
+        signupForm.addEventListener("submit", function (event) {
+            let isValid = true;
+
+            // Email Validation
+            const email = document.getElementById("signup-email").value;
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@svecw\.edu\.in$/;
+            if (!emailPattern.test(email)) {
+                emailError.textContent = "Only emails ending with @svecw.edu.in are allowed.";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            // Password Validation
+            const password = document.getElementById("signup-password").value;
+            const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                passwordError.textContent = "Password must have at least 8 characters, including uppercase, lowercase, digit, and special character.";
+                isValid = false;
+            } else {
+                passwordError.textContent = "";
+            }
+
+            // Confirm Password Validation
+            const confirmPassword = document.getElementById("signup-confirm-password").value;
+            if (password !== confirmPassword) {
+                confirmPasswordError.textContent = "Passwords do not match.";
+                isValid = false;
+            } else {
+                confirmPasswordError.textContent = "";
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+
+</html>

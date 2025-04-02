@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marketplace - Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #2A9D8F;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: #E9C46A;
+            padding: 0.5rem;
+            color: white;
+            text-align: center;
+        }
+        nav a {
+            color: #264653;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .search-filter {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem;
+        }
+        .search-filter input[type="text"] {
+            width: 40%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .search-filter select {
+            margin-left: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: scale(1.02);
+        }
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .product-card .details {
+            padding: 1rem;
+        }
+        .product-card .details h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .product-card .details p {
+            margin: 0 0 1rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .product-card .details .price {
+            font-weight: bold;
+            color: #2A9D8F;
+        }
+        .product-card .details button {
+            background-color: #2A9D8F;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .product-card .details button:hover {
+            background-color: #21867a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Marketplace</h1>
+        <p>Find affordable textbooks, laptops, and more!</p>
+    </header>
+    <nav>
+        <a href="homepage.html">Home</a>
+        <a href="projectproduct.html">Products</a>
+        <a href="cart.html">Cart</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="login.html">Login</a>
+        <a href="profilepage.html">Profile</a>
+    </nav>
+    <div class="search-filter">
+        <input type="text" id="search-bar" placeholder="Search products...">
+        <select id="category-filter">
+            <option value="all">All Categories</option>
+            <option value="selling">Selling</option>
+            <option value="renting">Renting</option>
+            <option value="student-entrepreneurial-business">Student Entrepreneurial Business</option>
+        </select>
+        <select id="sub-category-filter">
+            <option value="all">All Subcategories</option>
+            <option value="laptops">Laptops</option>
+            <option value="textbooks">Textbooks</option>
+            <option value="more">More</option>
+        </select>
+    </div>
+
+    <div class="products-container" id="products-container">
+        <!-- Product cards will be dynamically inserted here -->
+    </div>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "Calculus Textbook",
+                description: "A comprehensive guide to calculus.",
+                price: 150.00,
+                image_url: "https://i.etsystatic.com/12662587/r/il/b8d001/4683244517/il_fullxfull.4683244517_h66r.jpg",
+                category: "selling",
+                subcategory: "textbooks"
+            },
+            {
+                id: 2,
+                name: "Laptop - Dell Inspiron",
+                description: "A powerful and reliable laptop.",
+                price: 22000.00,
+                image_url: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/5441/media-gallery/non-fpr/laptop-inspiron-in5441nt-nonfpr-gy-gallery-1.psd?fmt=png-alpha&pscan=auto&scl=1&hei=402&wid=517&qlt=100,1&resMode=sharp2&size=517,402&chrss=full",
+                category: "selling",
+                subcategory: "laptops"
+            },
+            {
+                id: 3,
+                name: "Notebook Pack",
+                description: "Set of 5 notebooks for your study needs.",
+                price: 200.00,
+                image_url: "https://m.media-amazon.com/images/I/815l1fPVlWL.AC_UF1000,1000_QL80.jpg",
+                category: "renting",
+                subcategory: "more"
+            },
+            {
+                id: 4,
+                name: "Drafter",
+                description: "Essential one for technical drawings and plans",
+                price: 400.00,
+                image_url: "https://rukminim2.flixcart.com/image/850/1000/xif0q/drafting-kit/m/b/y/1-mini-drafter-for-engineering-drawing-book-birds-original-imagyq3pqqqkyptt.jpeg?q=20&crop=false",
+                category: "student-entrepreneurial-business",
+                subcategory: "more"
+            },
+            {
+                id: 5,
+                name: "MacBook Pro",
+                description: "High-performance laptop for professionals.",
+                price: 40000.00,
+                image_url: "https://test470.nop-station.com/images/thumbs/0000024_apple-macbook-pro_550.jpeg",
+                category: "selling",
+                subcategory: "laptops"
+            },
+            {
+                id: 6,
+                name: "Engineering Textbook",
+                description: "Advanced concepts in engineering.",
+                price: 180.00,
+                image_url: "https://padhegaindia.in/wp-content/uploads/2024/09/9789352833993-1.webp",
+                category: "renting",
+                subcategory: "textbooks"
+            },
+            {
+                id: 7,
+                name: "Resin Arts Chains",
+                description: "1 chain with a set of earrings",
+                price: 280.00,
+                image_url: "https://img-c.udemycdn.com/course/750x422/1122372_5a20.jpg",
+                category: "selling",
+                subcategory: "handicrafts"
+            },
+            {
+                id: 8,
+                name: "Thread Bangles",
+                description: "6pc set bangles available in all sizes",
+                price: 350.00,
+                image_url: "https://fashionous.in/cdn/shop/files/STB019-SilkThreadBangle.jpg?v=1699866827",
+                category: "selling",
+                subcategory: "handicrafts"
+            },
+            {
+                id: 9,
+                name: "Drafter",
+                description: "Essential one for technical drawings and plans",
+                price: 440.00,
+                image_url: "https://m.media-amazon.com/images/I/41fhBRahctL.AC_UF1000,1000_QL80.jpg",
+                category: "student-entrepreneurial-business",
+                subcategory: "more"
+            }
+        ];
+    
+    
+
+        const productsContainer = document.getElementById('products-container');
+        const searchBar = document.getElementById('search-bar');
+        const categoryFilter = document.getElementById('category-filter');
+        const subCategoryFilter = document.getElementById('sub-category-filter');
+        function renderProducts(filter = "", category = "all", subCategory = "all") {
+        productsContainer.innerHTML = "";
+        const filteredProducts = products.filter(product => {
+            const matchesSearch = filter === "" || product.name.toLowerCase().includes(filter.toLowerCase());
+            const matchesCategory = category === "all" || product.category === category;
+            const matchesSubCategory = subCategory === "all" || product.subcategory === subCategory;
+            return matchesSearch && matchesCategory && matchesSubCategory;
+    });
+
+    filteredProducts.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <div>
+                <button class="wishlist-icon" onclick="addToWishlist(${product.id})">❤</button>
+                <img src="${product.image_url}" alt="${product.name}">
+            </div>
+            <div class="details">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <p class="price">Rs.${product.price.toFixed(2)}</p>
+                <button onclick="addToCart(${product.id})">Add to Cart</button>
+                <button class="buy-btn" onclick="buyNow(${product.id})">Buy Now</button>
+            </div>
+        `;
+        productsContainer.appendChild(productCard);
+    });
+}
+function redirectToWishlist() {
+    window.location.href = "wishlist.html";
+}
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+
+            // Retrieve the current cart from localStorage or initialize it as an empty array
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Check if the product is already in the cart
+            const existingProduct = cart.find(item => item.id === productId);
+            if (existingProduct) {
+                alert`(${product.name} is already in your cart.)`;
+            } else {
+                cart.push(product);
+                localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart to localStorage
+                alert`(${product.name} has been added to your cart.)`;
+            }
+
+            // Redirect to the cart.html page
+            window.location.href = "cart.html";
+        }
+
+        function addToBuyNow(productId) {
+            const product = products.find(p => p.id === productId);
+
+            // Store the selected product in the buyNow list
+            const buyNowList = [product]; // Ensure only one product is stored for buy now
+            localStorage.setItem('buyNow', JSON.stringify(buyNowList));
+
+            alert(`${product.name} has been added to Buy Now.`);
+
+            // Redirect to the buy_now.html page
+            window.location.href = "buyNow.html";
+        }
+
+        // Load buy now list on page load
+
+        searchBar.addEventListener('input', () => {
+            renderProducts(searchBar.value, categoryFilter.value, subCategoryFilter.value);
+        });
+
+        categoryFilter.addEventListener('change', () => {
+            renderProducts(searchBar.value, categoryFilter.value, subCategoryFilter.value);
+        });
+
+        subCategoryFilter.addEventListener('change', () => {
+            renderProducts(searchBar.value, categoryFilter.value, subCategoryFilter.value);
+        });
+        function addToWishlist(productId) {
+        const product = products.find(p => p.id === productId);
+
+    // Retrieve the current wishlist from localStorage or initialize it as an empty array
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+    // Check if the product is already in the wishlist
+        const existingProduct = wishlist.find(item => item.id === productId);
+        if (existingProduct) {
+            alert`(${product.name} is already in your wishlist.)`;
+        } else {
+            wishlist.push(product);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist)); // Save updated wishlist to localStorage
+            alert`(${product.name} has been added to your wishlist.)`;
+        }
+}
+
+
+        // Initial render
+        renderProducts();
+    </script>
+</body>
+</html>

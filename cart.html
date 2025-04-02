@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .cart-header h1 {
+            color: #2A9D8F;
+            font-size: 2rem;
+        }
+
+        .cart-items {
+            margin: 1rem 0;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item .details {
+            flex-grow: 1;
+            margin-left: 1rem;
+        }
+
+        .cart-item .details h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .cart-item .details p {
+            margin: 0.3rem 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .cart-item .actions {
+            text-align: center;
+        }
+
+        .cart-item .actions button {
+            background: #E76F51;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .cart-item .actions button:hover {
+            background: #D34523;
+        }
+
+        .cart-total {
+            text-align: right;
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #264653;
+        }
+
+        .checkout-btn,
+        .home-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .checkout-btn {
+            background: #2A9D8F;
+        }
+
+        .checkout-btn:hover {
+            background: #21867A;
+        }
+
+        .home-btn {
+            background: #E9C46A;
+        }
+
+        .home-btn:hover {
+            background: #C29750;
+        }
+
+        .empty-cart {
+            text-align: center;
+            margin: 2rem 0;
+            color: #555;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cart-container">
+        <div class="cart-header">
+            <h1>My Shopping Cart</h1>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items will be dynamically rendered -->
+        </div>
+        <div class="cart-total" id="cart-total">
+            Total: Rs.0.00
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        <button class="home-btn" onclick="redirectToHome()">Return to Home</button>
+    </div>
+
+    <script>
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+
+            cartItemsContainer.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+                cartTotal.textContent = "Total: Rs.0.00";
+                return;
+            }
+
+            cart.forEach(item => {
+                const itemTotal = item.price * (item.quantity || 1); // Default quantity to 1 if not set
+                total += itemTotal;
+
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <img src="${item.image_url}" alt="${item.name}">
+                    <div class="details">
+                        <h3>${item.name}</h3>
+                        <p>Price: Rs.${item.price.toFixed(2)}</p>
+                        <p>Quantity: ${item.quantity || 1}</p>
+                    </div>
+                    <div class="actions">
+                        <button onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                `;
+
+                cartItemsContainer.appendChild(cartItem);
+            });
+
+            cartTotal.textContent = `Total: Rs.${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart = cart.filter(item => item.id !== productId);
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function checkout() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if (cart.length === 0) {
+        alert("Your cart is empty. Add items before proceeding to checkout.");
+        return;
+    }
+
+    alert("Proceeding to checkout...");
+    localStorage.removeItem('cart'); // Clear the cart after checkout
+    loadCart();
+
+    // Redirect to the address page
+    window.location.href = "address.html";
+}
+
+
+        function redirectToHome() {
+            window.location.href = "homepage.html";
+        }
+
+        // Load cart on page load
+        document.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+</body>
+
+</html>
