@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1fae4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile-container {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .profile-container h1 {
+            color: #f8b5d6;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-container p {
+            font-size: 1.2rem;
+            color: #264653;
+        }
+
+        .logout-button {
+            background-color: #facfb7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.8rem;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .logout-button:hover {
+            background-color:#f2e5da;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <h1>User Profile</h1>
+        <p><strong>Email:</strong> <span id="userEmail"></span></p>
+        <p><strong>Role:</strong> <span id="userRole"></span></p>
+
+        <button class="logout-button" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Retrieve user data from localStorage
+        const userEmail = localStorage.getItem('userEmail');
+        const userRole = localStorage.getItem('userRole');
+
+        // Check if user is logged in
+        if (userEmail && userRole) {
+            document.getElementById('userEmail').textContent = userEmail;
+            document.getElementById('userRole').textContent = userRole;
+        } else {
+            // Redirect to login page if no user details are found
+            window.location.href = 'login.html';
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>
