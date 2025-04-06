@@ -7,77 +7,92 @@
     <title>Login Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #F1FAEE;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F8F9FA;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
 
         .login-container {
             background-color: #FFFFFF;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
             text-align: center;
         }
 
-        .login-container h1 {
-            color: #2A9D8F;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+        h1 {
+            color: #007BFF;
+            font-size: 2rem;
+            margin-bottom: 20px;
         }
 
-        .login-container label {
+        label {
             display: block;
-            text-align: left;
-            margin: 0.5rem 0 0.2rem;
-            font-weight: bold;
-            color: #264653;
-        }
-
-        .login-container input,
-        .login-container select {
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border: 1px solid #E0E0E0;
-            border-radius: 5px;
             font-size: 1rem;
+            color: #343A40;
+            margin-bottom: 10px;
+            text-align: left;
         }
 
-        .login-container button {
-            background-color: #2A9D8F;
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #CED4DA;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        button {
+            background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
-            padding: 0.8rem;
+            border-radius: 8px;
+            padding: 12px;
             font-size: 1rem;
             cursor: pointer;
             width: 100%;
+            transition: background-color 0.3s;
         }
 
-        .login-container button:hover {
-            background-color: #21867A;
+        button:hover {
+            background-color: #0056b3;
         }
 
         .error-message {
             color: red;
             font-size: 0.9rem;
-            margin-bottom: 1rem;
+            margin-bottom: 10px;
+            display: none;
         }
 
         .error-message.hidden {
             display: none;
         }
-        .extra-links{
-            padding-top:20px;
+
+        .forgot-password {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #007BFF;
+            cursor: pointer;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -88,7 +103,7 @@
         <div id="error" class="error-message hidden"></div>
         <form id="loginForm">
             <label for="email">College Email ID</label>
-            <input type="email" id="email" placeholder="Enter your college email" required>
+            <input type="email" id="email" placeholder="Enter your email" required>
 
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="Enter your password" required minlength="6">
@@ -101,10 +116,10 @@
             </select>
 
             <button type="submit">Login</button>
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
         </form>
-        <div class="extra-links">
-            <a href="signup.html">Sign Up</a> | <a href="forget_password.html">Forgot Password?</a>
-        </div>
     </div>
 
     <script>
@@ -112,14 +127,18 @@
         const errorMessage = document.getElementById('error');
 
         form.addEventListener('submit', function (event) {
-            event.preventDefault(); 
+            event.preventDefault(); // Prevent default form submission
+
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
             const role = document.getElementById('role').value;
+
+            // Clear previous error messages
             errorMessage.textContent = '';
             errorMessage.classList.add('hidden');
-            if (!email.endsWith('@svecw.edu.in')) {
-                errorMessage.textContent = 'Please enter a valid college email (e.g., user@svecw.edu.in).';
+
+            if (!email.endsWith('@gmail.com')) {
+                errorMessage.textContent = 'Please enter a valid email (e.g., user@gmail.com).';
                 errorMessage.classList.remove('hidden');
                 return;
             }
@@ -129,12 +148,12 @@
                 return;
             }
 
-            // Redirect based on role
-            if (role === 'Buyer') {
-                window.location.href = 'homepage.html';
-            } else if (role === 'Seller') {
-                window.location.href = 'admin.html';
-            }
+            // Store user details in localStorage
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userRole', role);
+
+            // Redirect to home page after successful login
+            window.location.href = 'homepage.html'; // Redirect to home page
         });
     </script>
 </body>
